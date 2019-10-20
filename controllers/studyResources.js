@@ -6,10 +6,6 @@ const storage = require('../models/firebasedb.js').storage;
 
 
 //get all resources
-studyResRouter.get('/admin',(req,res)=>{
-    console.log("I am here");
-   res.json("Hello").end();
-});
 studyResRouter.get('/', async (req,res,next)=>{
     let list = [];
     // studyResources.get().then((branches)=>{
@@ -32,7 +28,7 @@ studyResRouter.get('/', async (req,res,next)=>{
                 list.push(resource);
             }
         }
-        res.status(200).json(list);
+        res.status(200).send(list);
     }catch(error){
         next(error)
     }
