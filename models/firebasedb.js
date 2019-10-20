@@ -10,6 +10,7 @@ const schema = {
    flags: Number,
    subjectCode: String,
    year: Number,
+   review: Boolean,
    resourceId: String,
    downloadLink: String
 };
