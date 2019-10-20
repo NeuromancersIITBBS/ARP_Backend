@@ -1,5 +1,6 @@
-const firebase  = require('firebase');
-
+const firebase  = require('firebase/app');
+const firestore = require('firebase/firestore');
+//require('firebase/auth');
 
 require('dotenv').config('../config_num.env')
 
@@ -15,9 +16,9 @@ let firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-firebase.firestore().settings({timestampsInSnapshots:true});
 
 module.exports = {
     PORT,
-    firebase
+    firebase,
+    firestore
 };

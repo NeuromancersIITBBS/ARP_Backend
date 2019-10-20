@@ -9,7 +9,7 @@ const unknownEndpoint = (req,res)=>{
 };
 const errorHandler = (err,req,res,next)=>{
 
-    next(err);
+    console.log(err);
 };
 module.exports = {
     requestLogger,
