@@ -1,6 +1,6 @@
-import firebase from 'firebase/app'
-import 'firebase/firestore'
-import 'firebase/auth'
+const firebase  = require('firebase/app');
+require('firebase/firestore');
+require('firebase/auth');
 
 require('dotenv').config('../config_num.env')
 
