@@ -1,6 +1,6 @@
 const firebase = require('../utils/config.js');
 const firestore = firebase.firestore();
-
+const storage = firebase.storage();
 const studyResources = firestore.collection('branches');
 const schema = {
    emailId: String,
@@ -12,10 +12,12 @@ const schema = {
    year: Number,
    review: Boolean,
    resourceId: String,
-   downloadLink: String
+   downloadLink: String,
+   flagReason: Array
 };
 
 module.exports = {
    studyResources,
-    schema
+    schema,
+   storage
 };
