@@ -2,9 +2,9 @@ const firebase  = require('firebase/app');
 const firestore = require('firebase/firestore');
 //require('firebase/auth');
 
-require('dotenv').config('../config_num.env')
+require('dotenv').config();
 
-let PORT = process.env.PORT||3001;
+let PORT = process.env.PORT||3002;
 console.log(PORT);
 let firebaseConfig = {
     apiKey: "AIzaSyAA3gAByQRr6WNhmHpw8UtVr0Civi46Ork\n",
