@@ -8,7 +8,7 @@ const storage = require('../models/firebasedb.js').storage;
 //get all resources
 studyResRouter.get('/admin',(req,res)=>{
     console.log("I am here");
-   res.json("Hello").end();
+   res.json({hi :"Hello"}).end();
 });
 studyResRouter.get('/', async (req,res,next)=>{
     let list = [];
