@@ -6,12 +6,9 @@ const schema = require('../models/firebasedb.js').schema;
 const admin = require('../utils/config.js').admin;
 const storage = require('../models/firebasedb.js').storage;
 const firebase  = require('firebase/app');
-//const firestore = require('firebase/firestore');
 
 
-
-
-//get all resources
+//admin (not yet implemented)
 studyResRouter.get('/admin',(req,res,next)=>{
 
   //   studyResources.get()
@@ -35,8 +32,7 @@ studyResRouter.get('/admin',(req,res,next)=>{
         }).catch(err => next(err));
 
   //     });
-  //     // for(let c of snapshot)
-  //     //  console.log(snapshot.collectionGroup);
+  //
   // }).catch((err)=>{next(err);});
   //
 
@@ -52,6 +48,9 @@ studyResRouter.get('/admin',(req,res,next)=>{
 
    res.json({hi :"Hello"}).end();
 });
+
+
+//all flagged
 studyResRouter.get('/', async (req,res,next)=>{
     let list = [];
     studyResources.get().then((branches)=>{
@@ -82,9 +81,10 @@ studyResRouter.get('/', async (req,res,next)=>{
     // }
 });
 
-//get all subjects of a branch
+
+//get all subjects of a branch (incomplete)
 studyResRouter.get('/:branch/',  async (req,res,next)=>{
-//.then
+// using .then()
     var list = [];
     await studyResources
     .doc(req.params.branch)
@@ -146,8 +146,7 @@ studyResRouter.get('/:branch/',  async (req,res,next)=>{
     // }
 });
 
-//get resource by subjectcode
-//done
+//get resource by subjectcode (Complete)
 studyResRouter.get('/:branch/subjects/:subjectCode',async (req,res,next)=>{
     try{
         let resource = await studyResources
@@ -164,8 +163,7 @@ studyResRouter.get('/:branch/subjects/:subjectCode',async (req,res,next)=>{
     }
 });
 
-//update flag
-//done
+//update flag (Complete)
 studyResRouter.put('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
     try{
         let resource;
@@ -205,7 +203,7 @@ studyResRouter.put('/:branch/subjects/:subjectCode/resources/:uniqueId',async (r
 
 });
 
-//delete resource by unique id
+//delete resource by unique id ()
 studyResRouter.delete('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
     try{
         let resource;
@@ -290,27 +288,6 @@ studyResRouter.get('/:branch/subjects/:subjectCode',(req,res,next)=>{
     }
 });
 
-// studyResRouter.put('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
-//     try{
-//         let resource = await studyResources
-//             .doc(req.params.branch)
-//             .collection(req.params.subjectCode)
-//             .where("resourceId","==",req.params.uniqueId).get();
-//         let newflags = resource['flag']+1;
-//         let flagArray = resource['flagReason'];
-//         flagArray.push(req.body.flagReason);
-//         studyResources
-//             .doc(req.params.branch)
-//             .collection(req.params.subjectCode)
-//             .where("resourceId","==",req.params.uniqueId)
-//             .update({flags : newflags, flagReason: flagArray})
-//             .then(()=>res.send(204).end());
-//     }catch(error){
-//         next(error);
-//     }
-//
-// });
-//
 // studyResRouter.delete('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
 //     try{
 //         let resource = await studyResources
@@ -329,7 +306,7 @@ studyResRouter.get('/:branch/subjects/:subjectCode',(req,res,next)=>{
 //     }
 // });
 
-//get all resourcescopy
+//get all resourcescopy (incomplete)
 studyResRouter.get('/searchcopy',(req,res,next)=>{
     //let list = [];
     try{
@@ -363,8 +340,7 @@ studyResRouter.get('/searchcopy',(req,res,next)=>{
     }
 });
 
-//upload resources of a subject code
-//done
+//upload resources of a subject code (Complete)
 studyResRouter.post('/:branch/subjects/:subjectCode', async (req,res,next)=>{
    try {
        let resourceObj = {
