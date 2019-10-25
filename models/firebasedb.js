@@ -1,6 +1,26 @@
-const firebase = require('../utils/config.js');
-const firestore = firebase.firestore();
-const storage = firebase.storage();
+// const firebase = require('../utils/config.js').firebase;
+// const admin = require('firebase-admin');
+
+const admin = require('../utils/config.js').admin;
+
+
+//const firestore = require('../utils/config.js').firestore;
+
+//const firestore = firebase.firestore();
+const firestore = admin.firestore();
+
+
+//const {Firestore} = require('@google-cloud/firestore');
+
+// Create a new client
+// const firestore = new Firestore({
+//   // servicePath: 'localhost',
+//   // port: 3000,
+//   // sslCreds: grpc.credentials.createInsecure()
+// });
+
+console.log("Firestore is working");
+const storage = require('@google-cloud/storage');
 const studyResources = firestore.collection('branches');
 const schema = {
    emailId: String,
@@ -18,6 +38,7 @@ const schema = {
 
 module.exports = {
    studyResources,
+   firestore,
     schema,
    storage
 };
