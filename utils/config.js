@@ -15,7 +15,6 @@ let firebaseConfig = {
     storageBucket: process.env.storageBucket,
     messagingSenderId: process.env.messagingSenderId,
 };
-
 firebase.initializeApp(firebaseConfig);
 
 module.exports = {
