@@ -26,11 +26,14 @@ let firebaseConfig = {
     messagingSenderId: process.env.messagingSenderId,
 };
 
+
 //firebase.initializeApp(firebaseConfig);
 // admin.initializeApp({
 //   credential: admin.credential.applicationDefault(),
 //   databaseURL: 'https://arpbackend-7b652.firebaseio.com'
 // });
+
+
 module.exports = {
     PORT,
     //firebase,
