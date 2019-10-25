@@ -1,87 +1,125 @@
-# Project Title
+# ARP Backend
 
-One Paragraph of project description goes here
+- This repository consists of the codes for backend of Academic Resource Portal
 
-## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+## Schema
+All API access is over `HTTPS`, and accessed from the `<https://arpb.herokuapp.com>`. All data is sent as JSON.
 
-### Prerequisites
+```bash
 
-What things you need to install the software and how to install them
 
-```
-Give examples
-```
-
-### Installing
-
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
-
-```
-Give the example
+{
+  'author' : 'Neuromancers, IIT Bhubaneswar',
+  'endpoint' : '',
+  'project_name' : 'ARP_Backend',
+  'project_url' : 'https://github.com/NeuromancersIITBBS/ARP_Backend'
+}
 ```
 
-And repeat
+## Endpoints
+
+### `GET: /admin`
+Result:
+```json
 
 ```
-until finished
-```
 
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+### `GET: /studyResources/branches/{branch}`
+Result:
+```json
 
 ```
-Give an example
+
+### `GET: /studyResources/branches/{branch}/subjects/{subjectCode}`
+Result for subjectCode : CS2L003 :
+```json
+[
+    {
+        "downloadLink": "https://firebasestorage.googleapis.com/v0/b/arpbackend-7b652.appspot.com/o/3.%20Gene%20Mutation.pdf?alt=media&token=78e20a31-3daa-4924-9ea7-3293513cad97",
+        "flagReason": [],
+        "type": "tutorial",
+        "resourceId": "MrZpAehPuOZQKNnJUqxQ",
+        "emailId": "random@gmail.com",
+        "subjectCode": "CS2L003",
+        "semester": "spring",
+        "year": "2019",
+        "flags": 0,
+        "subjectName": "Data Structures",
+        "review": true
+    },
+    {
+        "subjectName": "Data Structures",
+        "review": true,
+        "downloadLink": "https://google.com",
+        "flagReason": [
+            "duplicate",
+            "irrelevant"
+        ],
+        "type": "endsem",
+        "resourceId": "PQvrbm2KP9MjuyKQktn7",
+        "emailId": "asdf123@gmail.com",
+        "subjectCode": "CS2L003",
+        "semester": "autumn",
+        "year": 2018,
+        "flags": "2"
+    }
+]
+
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
+### `GET: /studyResources/branches/search`
+Result:
+```json
 
 ```
-Give an example
+
+### `GET: /studyResources/branches/{branch}/subjects/{subjectCode`
+Result :
+```json
+
+```
+
+### `PUT: /studyResources/branches/{branch}/subjects/{subjectCode}/resources/{uniqueId}`
+Result:
+```json
+
+```
+
+### `DELETE: /studyResources/branches/{branch}/subjects/{subjectCode}/resources/{uniqueId}`
+Result:
+```json
+
+```
+
+### `POST: /studyResources/branches/{branch}/subjects/{subjectCode}`
+Result:
+```json
+
 ```
 
 ## Deployment
+ Currently deployed on heroku `<https://arpb.herokuapp.com>`.
 
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [Nodejs](https://nodejs.org/en/) - The web framework used
+* [Firebase](https://firebase.google.com/) - Database and Storage
+* [Heroku](https://www.heroku.com/) - For Deployment
 
-## Contributing
+## Contributors
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+- Rishabh Gupta (Project Leads)
+- Chirag Nighut (Project Leads)
+- Aashay Palliwar
+- Pradyuman Agrawal
+- Sreekanth Vadigi
+- Anuj Gupta
 
-## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+### Contact us at secyprogsoc.sg@iitbbs.ac.in
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
+Built with ♥ by Neuromancers, IIT Bhubaneswar.
