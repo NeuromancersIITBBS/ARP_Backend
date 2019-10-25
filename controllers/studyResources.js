@@ -38,15 +38,15 @@ studyResRouter.get('/', async (req,res,next)=>{
     let list = [];
     studyResources.get().then((branches)=>{
        branches.forEach((branch)=>{
-            branch.getCollections().then((subjects)=> {
+            branch.listCollections().then((subjects)=> {
                 subjects.forEach((subject) => {
                     subject.where('flag','>',"0").get().then((resource)=>{
-                        list.push(resource);
+                        list.push(resource.data());
                     }).catch((err)=>next(err));
                 })
             }).catch((err)=>next(err));
        })
-    }).catch((err)=>next(err));
+    }).then(()=>{res.sendStatus(200).send(list)}).catch((err)=>next(err));
     // try{
     //     let branches = await studyResources.get();
     //     console.log(branches);
@@ -151,6 +151,7 @@ studyResRouter.get('/:branch/subjects/:subjectCode',async (req,res,next)=>{
         let resource = await studyResources
             .doc(req.params.branch)
             .collection(req.params.subjectCode)
+            .where("review","==",true)
             .get();
         var resources = [];
         let r = await resource.forEach(r => {
