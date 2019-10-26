@@ -71,7 +71,24 @@ Result for subjectCode : CS2L003 :
 ### `GET: /studyResources/branches/search`
 Result:
 ```json
-
+[
+    {
+        "subjectName":"PDS",
+        "subjectCode":"CS1L001"
+    },
+    {
+        "subjectName":"Advanced PDS",
+        "subjectCode":"CS1L004"
+    },
+  {
+    "subjectName":"Data Structures",
+    "subjectCode":"CS2L003"
+  },
+  {
+    "subjectName":"Signal & System",
+    "subjectCode":"EC1L001"
+  }
+]
 ```
 
 ### `GET: /studyResources/branches/{branch}/subjects/{subjectCode`
