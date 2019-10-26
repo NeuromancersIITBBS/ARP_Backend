@@ -9,33 +9,94 @@ const firebase  = require('firebase/app');
 
 //all flagged
 studyResRouter.get('/', async (req,res,next)=>{
-    let list = [];
-    studyResources.get().then((branches)=>{
-       branches.forEach((branch)=>{
-            branch.listCollections().then((subjects)=> {
-                subjects.forEach((subject) => {
-                    subject.where('flag','>',"0").get().then((resource)=>{
-                        list.push(resource.data());
-                    }).catch((err)=>next(err));
-                })
-            }).catch((err)=>next(err));
-       })
-    }).then(()=>{res.sendStatus(200).send(list)}).catch((err)=>next(err));
-    // try{
-    //     let branches = await studyResources.get();
-    //     console.log(branches);
-    //     console.log(typeof branches);
-    //     for (const branch of branches) {
-    //         let subjects = await branch.getCollections();
-    //         for (const subject of subjects) {
-    //             let resource = await subject.get();
-    //             list.push(resource);
-    //         }
-    //     }
-    //     res.status(200).json(list);
-    // }catch(error){
-    //     next(error)
+
+try{
+        let globalList = [];
+        let branches = await studyResources.get();
+
+
+                for (branch of branches.docs) {
+
+                    let docRef = await studyResources.doc(branch.id);
+                    docRef
+                        .listCollections()
+                        .then(async (subjects) => {
+                            for (subject of subjects) {
+                                let resources = await subject.get();
+                                for (resource of resources.docs) {
+                                    if (resource.data().flags > 0)
+                                        globalList.push(resource.data());
+                                    //console.log(globalList);
+                                }
+                            }
+                        })
+                        .catch(err => {
+                        next(err);
+                    });
+                }
+            console.log(globalList);
+            //return globalList;
+            res.status(200).send(globalList);
+    }catch(err){
+    next(err);
+}
+
+
+
+
+
+
+    //         .doc(req.params.branch)
+    //         .listCollections()
+    //         .then(async (subjects) => {
+    //             //console.log(subjects);
+    //             for(subject of subjects){
+    //                 let resources = await subject.get();
+    //                 for(resource of resources.docs){
+    //                     if(resource.data().review){
+    //                         let subName = resource.data().subjectName;
+    //                         let subCode = resource.data().subjectCode;
+    //                         globalList.push({subjectName: subName, subjectCode: subCode});
+    //                         break;
+    //                     }
+    //                 }
+    //             }
+    //             return globalList;
+    //         }).then(()=>{res.status(200).send(globalList)}).catch(err => {next(err)});
+    //
+    // }catch(error)
+    // {
+    //     next(error);
     // }
+    //
+    //
+    // let globalList = [];
+    // studyResources.get().then((branches)=>{
+    //    branches.forEach((branch)=>{
+    //         branch.listCollections().then((subjects)=> {
+    //             subjects.forEach((subject) => {
+    //                 subject.where('flag','>',"0").get().then((resource)=>{
+    //                     list.push(resource.data());
+    //                 }).catch((err)=>next(err));
+    //             })
+    //         }).catch((err)=>next(err));
+    //    })
+    // }).then(()=>{res.sendStatus(200).send(list)}).catch((err)=>next(err));
+    // // try{
+    // //     let branches = await studyResources.get();
+    // //     console.log(branches);
+    // //     console.log(typeof branches);
+    // //     for (const branch of branches) {
+    // //         let subjects = await branch.getCollections();
+    // //         for (const subject of subjects) {
+    // //             let resource = await subject.get();
+    // //             list.push(resource);
+    // //         }
+    // //     }
+    // //     res.status(200).json(list);
+    // // }catch(error){
+    // //     next(error)
+    // // }
 });
 
 //delete resource by unique id ()
@@ -256,7 +317,7 @@ studyResRouter.get('/:branch',  (req,res,next)=>{
                     }
                 }
                 return globalList;
-            }).then(()=>{res.status(200).send(globalList)}).catch(err => {next(err)});
+            }).then((globalList)=>{res.status(200).send(globalList)}).catch(err => {next(err)});
 
     }catch(error)
     {
