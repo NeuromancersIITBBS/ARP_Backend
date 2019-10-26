@@ -91,10 +91,22 @@ Result:
 ]
 ```
 
-### `GET: /studyResources/branches/{branch}/subjects/{subjectCode`
+### `GET: /studyResources/branches/{branch}/subjects/{subjectCode}`
 Result :
 ```json
-
+[
+  {
+    "subjectName":"PDS",
+    "subjectCode":"CS1L001"
+  },
+  {
+    "subjectName":"Advanced PDS",
+    "subjectCode":"CS1L004"
+  },
+  {
+    "subjectName":"Data Structures","subjectCode":"CS2L003"
+  }
+]    
 ```
 
 ### `PUT: /studyResources/branches/{branch}/subjects/{subjectCode}/resources/{uniqueId}`
