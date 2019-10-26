@@ -1,9 +1,20 @@
-const firebase  = require('firebase');
+// const firebase  = require('firebase/app');
+// const firestore = require('firebase/firestore');
 
+var admin = require("firebase-admin");
 
-require('dotenv').config('../config_num.env')
+var serviceAccount = require("../serviceacc.json");
 
-let PORT = process.env.PORT||3001;
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://arpbackend-7b652.firebaseio.com"
+});
+
+//require('firebase/auth');
+
+require('dotenv').config();
+
+let PORT = process.env.PORT||3002;
 console.log(PORT);
 
 let firebaseConfig = {
@@ -14,10 +25,18 @@ let firebaseConfig = {
     storageBucket: process.env.storageBucket,
     messagingSenderId: process.env.messagingSenderId,
 };
-firebase.initializeApp(firebaseConfig);
-firebase.firestore().settings({timestampsInSnapshots:true});
+
+
+//firebase.initializeApp(firebaseConfig);
+// admin.initializeApp({
+//   credential: admin.credential.applicationDefault(),
+//   databaseURL: 'https://arpbackend-7b652.firebaseio.com'
+// });
+
 
 module.exports = {
     PORT,
-    firebase
+    //firebase,
+    admin
+    //firestore
 };
