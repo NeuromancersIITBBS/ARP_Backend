@@ -204,7 +204,7 @@ studyResRouter.get('/:branch', async (req,res,next)=>{
     }*/
     try {
         let globalList = [];
-        let subjects = studyResources.doc(req.params.branch).listCollections();
+        let subjects = await studyResources.doc(req.params.branch).listCollections();
         for(const subject of subjects){
             let resources = await subject.get();
             for(const resource of resources.docs){
