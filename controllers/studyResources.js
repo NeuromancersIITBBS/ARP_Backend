@@ -7,31 +7,6 @@ const admin = require('../utils/config.js').admin;
 const storage = require('../models/firebasedb.js').storage;
 const firebase  = require('firebase/app');
 
-
-//admin review implementation (complete)
-studyResRouter.put('/admin/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
-  try{
-      let updateObj = {
-        subjectName : req.body.subjectName,
-        subjectCode : req.body.subjectCode,
-        semester : req.body.semester,
-        type : req.body.type,
-        year : req.body.year,
-        flags : 0,
-        flagReason : [],
-        review : true
-      };
-      let s = await studyResources
-          .doc(req.params.branch)
-          .collection(req.params.subjectCode)
-          .doc(req.params.uniqueId)
-          .update(updateObj)
-          .then(()=>res.sendStatus(204).end());
-  }catch(error){
-      next(error);
-  }
-});
-
 //all flagged
 studyResRouter.get('/', async (req,res,next)=>{
     let list = [];
@@ -285,6 +260,30 @@ studyResRouter.get('/:branch',  (req,res,next)=>{
 
     }catch(error)
     {
+        next(error);
+    }
+});
+
+//admin review implementation (complete)
+studyResRouter.put('/admin/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
+    try{
+        let updateObj = {
+            subjectName : req.body.subjectName,
+            subjectCode : req.body.subjectCode,
+            semester : req.body.semester,
+            type : req.body.type,
+            year : req.body.year,
+            flags : 0,
+            flagReason : [],
+            review : true
+        };
+        await studyResources
+            .doc(req.params.branch)
+            .collection(req.params.subjectCode)
+            .doc(req.params.uniqueId)
+            .update(updateObj)
+            .then(()=>res.sendStatus(204).end());
+    }catch(error){
         next(error);
     }
 });
