@@ -32,7 +32,6 @@ studyResRouter.put('/admin/:branch/subjects/:subjectCode/resources/:uniqueId',as
   }
 });
 
-
 //all flagged
 studyResRouter.get('/', async (req,res,next)=>{
     let list = [];
@@ -63,7 +62,6 @@ studyResRouter.get('/', async (req,res,next)=>{
     //     next(error)
     // }
 });
-
 
 //get all subjects of a branch (incomplete)
 studyResRouter.get('/:branch',  (req,res,next)=>{
@@ -145,55 +143,6 @@ studyResRouter.get('/:branch',  (req,res,next)=>{
     }
 });
 
-//get resources by subjectcode (Complete)
-studyResRouter.get('/:branch/subjects/:subjectCode',async (req,res,next)=>{
-    try{
-        let resource = await studyResources
-            .doc(req.params.branch)
-            .collection(req.params.subjectCode)
-            .where("review","==",true)
-            .get();
-        var resources = [];
-        let r = await resource.forEach(r => {
-            resources.push(r.data());
-        });
-        res.status(200).send(resources)
-    }catch(error) {
-        next(error);
-    }
-});
-
-//update flag (Complete)
-studyResRouter.put('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
-
-      try{
-          let resource;
-          let resourceRef = await studyResources
-              .doc(req.params.branch)
-              .collection(req.params.subjectCode)
-              .where("resourceId","==",req.params.uniqueId).get().then(resources => {
-                resources.forEach(r => {
-                  resource = r.data();
-                })});
-          let newflags = resource.flags+1;
-          let flagArray = resource.flagReason;
-          flagArray.push(req.body.flagReason);
-          let reviewVar = resource.review;
-          if(newflags >= 30)
-            reviewVar = false;
-          let s = await studyResources
-              .doc(req.params.branch)
-              .collection(req.params.subjectCode)
-              .doc(req.params.uniqueId)
-              .update({flags : newflags, flagReason: flagArray, review : reviewVar})
-              .then(()=>res.sendStatus(204).end());
-      }catch(error){
-          next(error);
-      }
-
-
-});
-
 //delete resource by unique id ()
 studyResRouter.delete('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
     try{
@@ -266,8 +215,6 @@ studyResRouter.get('/search', async (req,res,next)=>{
     }
 });
 
-
-
 // studyResRouter.delete('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
 //     try{
 //         let resource = await studyResources
@@ -335,9 +282,6 @@ studyResRouter.post('/:branch/subjects/:subjectCode', async (req,res,next)=>{
            downloadLink: req.body.downloadLink,
            flagReason: []
        };
-       console.log("1");
-       console.log(resourceObj);
-
        let resource = await studyResources
            .doc(req.params.branch)
            .collection(req.params.subjectCode)
@@ -348,6 +292,52 @@ studyResRouter.post('/:branch/subjects/:subjectCode', async (req,res,next)=>{
    }catch(err){
        next(err);
    }
+});
+
+//get resources by subjectcode (Complete)
+studyResRouter.get('/:branch/subjects/:subjectCode',async (req,res,next)=>{
+    try{
+        let resource = await studyResources
+            .doc(req.params.branch)
+            .collection(req.params.subjectCode)
+            .where("review","==",true)
+            .get();
+        let resources = [];
+        await resource.forEach(r => {
+            resources.push(r.data());
+        });
+        res.status(200).send(resources)
+    }catch(error) {
+        next(error);
+    }
+});
+
+//update flag (Complete)
+studyResRouter.put('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
+    try{
+        let resource;
+        await studyResources
+            .doc(req.params.branch)
+            .collection(req.params.subjectCode)
+            .where("resourceId","==",req.params.uniqueId).get().then(resources => {
+                resources.forEach(r => {
+                    resource = r.data();
+                })});
+        let newFlags = resource.flags+1;
+        let flagArray = resource.flagReason;
+        flagArray.push(req.body.flagReason);
+        let reviewVar = resource.review;
+        if(newFlags >= 30)
+            reviewVar = false;
+        await studyResources
+            .doc(req.params.branch)
+            .collection(req.params.subjectCode)
+            .doc(req.params.uniqueId)
+            .update({flags : newFlags, flagReason: flagArray, review : reviewVar})
+            .then(()=>res.sendStatus(204).end());
+    }catch(error){
+        next(error);
+    }
 });
 
 module.exports = studyResRouter;
