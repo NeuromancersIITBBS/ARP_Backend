@@ -63,86 +63,6 @@ studyResRouter.get('/', async (req,res,next)=>{
     // }
 });
 
-//get all subjects of a branch (incomplete)
-studyResRouter.get('/:branch',  (req,res,next)=>{
-// using .then()
-    // var list = [];
-    // let process =  await studyResources
-    // .doc(req.params.branch)
-    // .listCollections()
-    // .then(subjects => {
-    //   subjects.forEach(async subject => {
-    //   let r =  await  subject.get().then(docs=>{
-    //           docs.forEach(doc=>{
-    //           if(doc.data().review === true){
-    //             let subName = doc.data().subjectName;
-    //             let subCode = doc.data().subjectCode;
-    //             let obj = {subjectName : subName, subjectCode : subCode};
-    //             list.push(obj);
-    //             console.log(list);
-    //             console.log("ok");
-    //           }
-    //         });
-    //     }).then(() => {
-    //       //console.log(list);
-    //       console.log("ok2");
-    //     }).catch(err => next(err));
-    //
-    //   });
-    //   console.log("yes");
-    //   //console.log(list);
-    //   //return list;
-    //
-    // }).then(()=>{
-    //         console.log("yes it stopped before");
-    //         console.log(list);
-    //         res.status(200).send(list);
-    //     }).catch(err => next(err));
-
-
-
-
-
-
-
-
-    try{
-        var globalList = [];
-        async function execution()
-        {studyResources.doc(req.params.branch).listCollections().then(async (subjects)=>{
-              let d = await subjects.forEach(async (subject)=>{
-              let resources = await subject.get();
-              let f = true;
-              let g = await resources.forEach(async (resource)=>{
-                  //let list = globalList;
-                  if (resource.data().review && f ) {
-                      let subName = resource.data().subjectName;
-                      let subCode = resource.data().subjectCode;
-                      globalList.push({subjectName: subName, subjectCode: subCode});
-                      f = false;
-                  }
-                  //globalList = list;
-                  console.log(globalList);
-              });
-          });
-          console.log(globalList);
-          return globalList;
-        })}
-
-
-        execution().then((gloabalList)=>{
-          console.log(Date.now());
-          console.log("poor guy");
-          console.log(globalList);
-          res.status(200).send(globalList);
-        }).catch(err => {next(err);});
-
-    }catch(error)
-    {
-        next(error);
-    }
-});
-
 //delete resource by unique id ()
 studyResRouter.delete('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
     try{
@@ -336,6 +256,35 @@ studyResRouter.put('/:branch/subjects/:subjectCode/resources/:uniqueId',async (r
             .update({flags : newFlags, flagReason: flagArray, review : reviewVar})
             .then(()=>res.sendStatus(204).end());
     }catch(error){
+        next(error);
+    }
+});
+
+//get all subjects of a branch (complete)
+studyResRouter.get('/:branch',  (req,res,next)=>{
+    try {
+        let globalList = [];
+        studyResources
+            .doc(req.params.branch)
+            .listCollections()
+            .then(async (subjects) => {
+                //console.log(subjects);
+                for(subject of subjects){
+                    let resources = await subject.get();
+                    for(resource of resources.docs){
+                        if(resource.data().review){
+                            let subName = resource.data().subjectName;
+                            let subCode = resource.data().subjectCode;
+                            globalList.push({subjectName: subName, subjectCode: subCode});
+                            break;
+                        }
+                    }
+                }
+                return globalList;
+            }).then(()=>{res.status(200).send(globalList)}).catch(err => {next(err)});
+
+    }catch(error)
+    {
         next(error);
     }
 });
