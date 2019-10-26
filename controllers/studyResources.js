@@ -10,12 +10,12 @@ const firebase  = require('firebase/app');
 //all flagged
 studyResRouter.get('/', async (req,res,next)=>{
 
+/*
 try{
         let globalList = [];
         let branches = await studyResources.get();
 
-
-                for (branch of branches.docs) {
+                for (const branch of branches.docs) {
 
                     let docRef = await studyResources.doc(branch.id);
                     docRef
@@ -40,7 +40,28 @@ try{
     }catch(err){
     next(err);
 }
+*/
 
+    try{
+        let globalList = [];
+        let branches = await studyResources.get();
+        for (const branch of branches.docs) {
+            let subjects = await studyResources.doc(branch.id).listCollections();
+            for (const subject of subjects) {
+                let resources = await subject.get();
+                for (const resource of resources.docs) {
+                    if (resource.data().flags > 0)
+                        globalList.push(resource.data());
+                    //console.log(globalList);
+                }
+            }
+        }
+        console.log(globalList);
+        //return globalList;
+        res.status(200).send(globalList);
+    }catch(err){
+        next(err);
+    }
 
 
 
