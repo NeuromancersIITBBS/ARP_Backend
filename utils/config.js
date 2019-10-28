@@ -1,6 +1,11 @@
-const firebase  = require('firebase/app');
-const firestore = require('firebase/firestore');
-//require('firebase/auth');
+const admin = require("firebase-admin");
+
+const serviceAccount = require("../serviceacc.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://arpbackend-7b652.firebaseio.com"
+});
 
 require('dotenv').config();
 
@@ -16,10 +21,7 @@ let firebaseConfig = {
     messagingSenderId: process.env.messagingSenderId,
 };
 
-firebase.initializeApp(firebaseConfig);
-
 module.exports = {
     PORT,
-    firebase,
-    firestore
+    admin
 };

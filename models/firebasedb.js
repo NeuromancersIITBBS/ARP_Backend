@@ -1,9 +1,11 @@
-const firebase = require('../utils/config.js').firebase;
-//const firestore = require('../utils/config.js').firestore;
+const admin = require('../utils/config.js').admin;
 
-const firestore = firebase.firestore();
+const firestore = admin.firestore();
 console.log("Firestore is working");
-const storage = require('@google-cloud/storage');
+
+const {Storage} = require('@google-cloud/storage');
+const storage = new Storage();
+
 const studyResources = firestore.collection('branches');
 const schema = {
    emailId: String,
@@ -21,6 +23,7 @@ const schema = {
 
 module.exports = {
    studyResources,
+   firestore,
     schema,
    storage
 };
