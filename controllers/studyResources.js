@@ -31,29 +31,37 @@ studyResRouter.get('/', async (req,res,next)=>{
     }
 });
 
-//delete resource by unique id ()
+//delete resource by unique id () (complete)
 studyResRouter.delete('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
     try{
-        let resource;
-        let resourceRef2= await studyResources
+        let resource = await studyResources
             .doc(req.params.branch)
             .collection(req.params.subjectCode)
-            .where("resourceId","==",req.params.uniqueId)
-            .get()
-            .then(resources => {
-              resources.forEach(r => {
-                resource = r.data();
-              });
-            });
-        let downloadLink = resource.downloadLink;
-        console.log(downloadLink);
-        let resourceRef = await admin.firestore().refFromURL(downloadLink);
-        console.log(resourceRef);
-        // resourceRef.delete().then(()=>{
-        //       res.send(204).end();
-        // }).catch((err)=>{
-        //       next(err)
-        // });
+            .doc(req.params.uniqueId).get();
+
+
+        let downloadLink = resource.data().downloadLink;
+        let storageReference=resource.data().storageReference;
+        let resourceRef = await storage.bucket(process.env.storageBucket);
+        //const [files] = await storage.bucket(process.env.storageBucket).getFiles();
+
+      var str = resource.data.resourceRef;
+      var pos = str.lastIndexOf("/");
+      var name = str.substring(pos+1);
+      let file=resourceRef.file('name');
+
+        file.delete().then(()=>{
+            studyResources
+            .doc(req.params.branch)
+            .collection(req.params.subjectCode)
+            .doc(req.params.uniqueId).delete().then(()=>{
+             console.log("successfully deleted file")
+              res.sendStatus(204).end();
+        }).catch((err)=>{
+              next(err)})
+        }).catch((err)=>{
+              next(err)
+        });
     }catch(error){
         next(error);
     }
@@ -84,23 +92,6 @@ studyResRouter.get('/search', async (req,res,next)=>{
     }
 });
 
-// studyResRouter.delete('/:branch/subjects/:subjectCode/resources/:uniqueId',async (req,res,next)=>{
-//     try{
-//         let resource = await studyResources
-//             .doc(req.params.branch)
-//             .collection(req.params.subjectCode)
-//             .where("resourceId","==",req.params.uniqueId).get();
-//         let downloadLink = resource.downloadLink;
-//         let resourceRef = await storage.refFromURL(downloadLink);
-//         resourceRef.delete().then(()=>{
-//               res.send(204).end();
-//         }).catch((err)=>{
-//               next(err)
-//         });
-//     }catch(error){
-//         next(error);
-//     }
-// });
 
 //upload resources of a subject code (Complete)
 studyResRouter.post('/:branch/subjects/:subjectCode', async (req,res,next)=>{
