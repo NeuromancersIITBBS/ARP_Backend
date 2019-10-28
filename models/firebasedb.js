@@ -18,6 +18,7 @@ const schema = {
    review: Boolean,
    resourceId: String,
    downloadLink: String,
+   storageReference: String,
    flagReason: Array
 };
 
