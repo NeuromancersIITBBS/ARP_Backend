@@ -215,7 +215,6 @@ Admin review the file and update the review value.
 ## Contributors
 
 - Rishabh Gupta (Project Leads)
-- Chirag Nighut (Project Leads)
 - Aashay Palliwar
 - Pradyuman Agrawal
 - Sreekanth Vadigi
