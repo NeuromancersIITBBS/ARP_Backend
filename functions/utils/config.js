@@ -4,7 +4,7 @@ const serviceAccount = require("../serviceacc.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://arpbackend-7b652.firebaseio.com"
+  databaseURL: "https://arpbackend-df561.firebaseio.com"
 });
 
 require('dotenv').config();

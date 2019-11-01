@@ -19,7 +19,8 @@ const schema = {
    resourceId: String,
    downloadLink: String,
    storageReference: String,
-   flagReason: Array
+   flagReason: Array,
+   description : String
 };
 
 module.exports = {

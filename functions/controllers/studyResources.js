@@ -42,6 +42,7 @@ studyResRouter.delete('/:branch/subjects/:subjectCode/resources/:uniqueId',async
 //upload a resource of a subject code
 studyResRouter.post('/:branch/subjects/:subjectCode', async (req,res,next)=>{
    try {
+
        let resourceObj = {
            emailId: req.body.emailId,
            subjectName: req.body.subjectName,
@@ -52,9 +53,12 @@ studyResRouter.post('/:branch/subjects/:subjectCode', async (req,res,next)=>{
            year: req.body.year,
            review: false,
            downloadLink: req.body.downloadLink,
+           storageReference : req.body.storageReference,
+           description : req.body.description,
            flagReason: []
        };
-
+        console.log(resourceObj);
+        console.log(req.body.description);
        let resource = await studyResources
            .doc(req.params.branch)
            .collection(req.params.subjectCode)

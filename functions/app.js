@@ -13,7 +13,7 @@ app.use(middleware.requestLogger);
 app.use('/studyResources/branches',studyResRouter);
 
 //get all flagged resources
-app.get('/flagged', async (req,res,next)=>{
+app.get('/admin/flagged', async (req,res,next)=>{
     try{
         let globalList = [];
         let branches = await studyResources.get();
@@ -34,7 +34,7 @@ app.get('/flagged', async (req,res,next)=>{
 });
 
 //get all unreviewed resources
-app.get('/unreviewed', async (req,res,next)=>{
+app.get('/admin/unreviewed', async (req,res,next)=>{
     try{
         let globalList = [];
         let branches = await studyResources.get();
