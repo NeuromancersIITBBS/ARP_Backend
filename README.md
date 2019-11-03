@@ -4,7 +4,7 @@
 
 
 ## Schema
-All API access is over `HTTPS`, and accessed from the `<https://arpbackend.firebaseapp.com>`. All data is sent as JSON.
+All API access is over `HTTPS`, and accessed from the `<https://arpbackend-df561.firebaseapp.com>`. All data is sent as JSON.
 
 ```bash
 
@@ -19,7 +19,7 @@ All API access is over `HTTPS`, and accessed from the `<https://arpbackend.fireb
 
 ## Endpoints
 
-### `GET: /flagged`
+### `GET: /admin/flagged`
 Result:
 Returns json data of all flagged files.
 ```json
@@ -60,7 +60,7 @@ Returns json data of all flagged files.
     }
 ]
 ```
-### `GET: /unreviewed`
+### `GET: /admin/unreviewed`
 Result:
 Returns json data of all unreviewed files.
 ```json
@@ -190,7 +190,7 @@ Result :
 Admin review the file and update the review value.
 
 ## Deployment
- Currently deployed on firebase `<https://arpbackend.firebaseapp.com>`.
+ Currently deployed on firebase `<https://arpbackend-df561.firebaseapp.com>`.
 
 
 ## Built With
