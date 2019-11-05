@@ -7,6 +7,7 @@ const {Storage} = require('@google-cloud/storage');
 const storage = new Storage();
 
 const studyResources = firestore.collection('branches');
+const check = firestore.collection('check');
 const schema = {
    emailId: String,
    subjectName: String,
@@ -27,5 +28,6 @@ module.exports = {
    studyResources,
    firestore,
     schema,
-   storage
+   storage,
+   check
 };

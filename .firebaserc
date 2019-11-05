@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "academic-resource-portal-b"
+    "default": "academic-resource-portal-b",
+    "deployment": "arpbackend-df561"
   }
 }

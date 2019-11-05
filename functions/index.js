@@ -9,5 +9,5 @@ const functions = require('firebase-functions');
 //    console.log(`Server is running on port ${config.PORT}`)
 // });
 
-exports.app = functions.https.onRequest(app);
+ exports.app = functions.https.onRequest(app);
 
