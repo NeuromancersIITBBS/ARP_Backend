@@ -87,10 +87,6 @@ Returns json data of all unreviewed files.
 ]
 ```
 
-### `DELETE: /studyResources/branches/{branch}/subjects/{subjectCode}/resources/{uniqueId}`
-Result:
-Delete the resource of uniqueId.
-
 ### `GET: /search`
 Result:
 Returns json data containing subjectName and subjectCode for all reviewed files.
@@ -160,10 +156,6 @@ Result for subjectCode : CS2L003 :
 
 ```
 
-### `PUT: /studyResources/branches/{branch}/subjects/{subjectCode}/resources/{uniqueId}`
-Result:
-Updates flag.
-
 ### `GET: /studyResources/branches/{branch}`
 Result:
 Returns json data containing subjectName and subjectCode of all reviewed files for a specific branch.
@@ -184,10 +176,6 @@ Returns json data containing subjectName and subjectCode of all reviewed files f
     }
 ]
 ```
-
-### `PUT: /admin/studyResources/branches/{branch}/subjects/{subjectCode}/resources/{uniqueId}`
-Result :
-Admin review the file and update the review value.
 
 ## Deployment
  Currently deployed on firebase `<https://arpbackend-df561.firebaseapp.com>`.
