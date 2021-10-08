@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors');
 const middleware = require('./utils/middleware.js');
 const studyResRouter = require('./controllers/studyResources.js');
+const adminRouter = require('./controllers/adminController.js');
 const studyResources = require('./models/firebasedb.js').studyResources;
 const check = require('./models/firebasedb.js').check;
 const admin = require('./utils/config.js').admin;
@@ -17,52 +18,12 @@ const admin = require('./utils/config.js').admin;
 
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(middleware.requestLogger);
 
 app.use('/studyResources/branches',studyResRouter);
+app.use('/admin',adminRouter);
 
-//get all flagged resources
-app.get('/admin/flagged', async (req,res,next)=>{
-    try{
-        let globalList = [];
-        let branches = await studyResources.get();
-        for (const branch of branches.docs) {
-            let subjects = await studyResources.doc(branch.id).listCollections();
-            for (const subject of subjects) {
-                let resources = await subject.get();
-                for (const resource of resources.docs) {
-                    if (resource.data().flags > 0)
-                        globalList.push(resource.data());
-                }
-            }
-        }
-        res.status(200).send(globalList);
-    }catch(err){
-        next(err);
-    }
-});
-
-//get all unreviewed resources
-app.get('/admin/unreviewed', async (req,res,next)=>{
-    try{
-        let globalList = [];
-        let branches = await studyResources.get();
-        for (const branch of branches.docs) {
-            let subjects = await studyResources.doc(branch.id).listCollections();
-            for (const subject of subjects) {
-                let resources = await subject.get();
-                for (const resource of resources.docs) {
-                    if (resource.data().review === false)
-                        globalList.push(resource.data());
-                }
-            }
-        }
-        res.status(200).send(globalList);
-    }catch(err){
-        next(err);
-    }
-});
 
 //get all subject-subjectCode pairs for search implementation
 app.get('/search', async (req,res,next)=>{
