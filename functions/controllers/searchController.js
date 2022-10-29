@@ -6,21 +6,17 @@ searchRouter.get("/", async (req, res, next) => {
   let mainlist = [];
   try {
     let branches = await check.doc("list").get();
-    for (let j = 0; j < branches.data().branches.length; j++) {
-      let branchData = {};
+    let branchesData = branches.data();
+    for (const branch of branchesData.branches) {
       let list = [];
-      let temp = branches.data().branches[j];
-      for (let i = 0; i < branches.data()[temp].length; ++i) {
-        let data = await branches.data()[temp][i];
-        let subCode = data.substring(0, 7);
-        let subName = data.substring(7);
+      for (const subjectData of branchesData[branch]) {
+        let subCode = subjectData.substring(0, 7);
+        let subName = subjectData.substring(7);
         list.push({ subjectName: subName, subjectCode: subCode });
       }
-      branchData.branchName = temp;
-      branchData.data = list;
-      mainlist.push(branchData);
+      mainlist.push({ branchName: branch, data: list });
     }
-    res.status(200).send(mainlist).end();
+    res.status(200).send(mainlist);
   } catch (error) {
     next(error);
   }
