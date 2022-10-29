@@ -43,7 +43,8 @@ adminRouter.get("/unreviewed", async (req, res, next) => {
   }
 });
 
-adminRouter.post("review/acceptresources", async (req, res, next) => {
+//accepts list of resources which need to be accepted
+adminRouter.post("/review/accept-resources", async (req, res, next) => {
   try {
     const validResourceSet = new Set(req.body.validResourceList);
     let branches = await studyResources.get();
